@@ -1,113 +1,44 @@
 #include <iostream>
 using namespace std;
-#include <fstream>
-void carrera(string nombrearchivo);
-void mostrar(string nombrearchivo);
-void Menu();
-int main() 
-{
-  string nombrearchivo;
-  char Tipo;
-  int con=1;
-  while(con!=0)
-  {
-    Menu();
-    cout<<" \n\nIngrese una opcion: ";
-    cin>>Tipo;
-    switch (Tipo) 
-	  {
-      case 'a':
-      cin.ignore();
-        cout<<"Ingrese el nombre del archivo:\n";
-        getline(cin, nombrearchivo);
-        carrera(nombrearchivo);
-        con=1;
-       break;          
-	    case 'b':
-         mostrar(nombrearchivo);
-         con=1;
-       break;          
-	    case 'c':       
-       con=0;
-       cout<<"\n-------MUCHAS GRACIAS ------\n";
-       break;
-	    default:cout<<"\nERROR, Al introducir la opcion\n";
-       con=1;
-       break;
-     }
-    
-  }
-  return 0;
-}
-void carrera(string nombrearchivo)
-{
-  string nombre;
-  string apellido;
-  string carrera;
-  string edad;
-  char r;
-  ofstream archivoprueba;
-  archivoprueba.open(nombrearchivo,ios::out);
-  do
-  {
-    cout<<"Ingrese el nombre:\n";
-    getline(cin,nombre);
-    cout<<"Ingrese el apellido:\n";
-    getline(cin,apellido);
-    cout<<"Ingrese la edad:\n";
-    cin>>edad;
-    cout<<"Ingrese su carrera:\n";
-    cin >>carrera;
-    archivoprueba<<nombre<<" "<<apellido<<" "<<edad<<" "<<carrera<<endl;
-    cout<<"Desea ingresar otro contacto s/n:\n";
-    cin>>r;
-    cin.ignore();
-  }
-  while (r=='s');
-  archivoprueba.close();
+int main() {
+ char s[20];
+ int puntos,distancia,conectores;
+ int i=0,sumadistancia=0;
+ float
+sumatotal,costo,cables=0,preciomaterial,preciomaterial1,cableconect,ganancia,total;
+ cout<< "Bienvenido a Electrocables"<<endl;
+ cout <<"Ubicacion del servicio"<<endl;
+ cin.getline(s,40);
+ cout<<"Ingrese el numero de puntos de red que va a ser instalada"<<endl;
+ cin>>puntos;
+ for (i=1;i<=puntos;i=i+1){
+ cout <<"Punto de red " " "<<i<<endl;
+ cout<<"Ingrese la distancia entre el conector de punto de red hasta el equipode conectividad"<<endl;
+ cin>>distancia;
+ cout<<"Ingrese el numero de conectores para el punto de red"<<endl;
+ cin>>conectores;
+ sumadistancia=sumadistancia+(distancia*conectores);
+ sumatotal=sumadistancia+(sumadistancia*0.05);
+ costo=sumadistancia*0.90;
+ cables=cables+conectores;
+ preciomaterial=(2*(cables*0.35+ cables *0.15) );
+ preciomaterial1=preciomaterial+(preciomaterial*0.15);
+
+ }
+ cableconect=costo+preciomaterial1;
+ ganancia=cableconect*0.45;
+ total=cableconect+ganancia;
+ cout <<"\t\tEl detalle de la instalacion es el siguiente: ";
+ cout<<"\nLa distancia de los conectores total utilizado en la instalacion es :" " "<<sumatotal<<endl;
+
+ cout<<"El costo de cable de categoria 5e: " ""<<costo<<endl;
+ cout<<"EL costo de los conectores RJ45 (Macho y hembra) es: " ""<<preciomaterial1<<endl;
+
+ cout<<"El total de material utilizado : " " "<<cableconect<<endl;
+ cout<<"La ganancia es : " " "<<ganancia<<endl;
+ cout<< "El total a pagar es : " " "<<total<<endl;
+
 }
 
-void mostrar (string nombrearchivo)
-{
-  string nombre;
-  string apellido;
-  string edad;
-  string carrera;
-  char r;
-  ofstream archivoprueba;
-  
-   ifstream archivolectura;
-   string texto;
-   archivolectura.open(nombrearchivo,ios::in);
-   if (archivolectura.fail())
-   {
-     cout<<"NO SE ENCONTRÓ NINGÚN ARCHIVO!\n";
-   }
-   else
-   {
-      while (!archivolectura.eof())
-    {
-      archivolectura>>nombre>>apellido>>edad>>carrera;
-      if(!archivolectura.eof())
-      {
-          cout<<"Nombre: "<<nombre<<endl;
 
-          cout<<"Apellido: "<<apellido<<endl;
 
-          cout<<"Edad: "<<edad<<endl;
-
-          cout<<"Carrera: "<<carrera<<endl;
-      } 
-    }
-   }
-    archivolectura.close();
-}
-void Menu(void)
-{
-  cout<<"\t\t╔══════════════════════════════════════════╗\n";
-  cout<<"\t\t║                █ MENÚ █                  ║\n";
-	cout<<"\t\t║  a) INGRESAR DATOS                       ║\n";
-	cout<<"\t\t║  b) MOSTRAR DATOS                        ║\n";
-	cout<<"\t\t║  c) Salir                                ║\n";
-  cout<<"\t\t╚══════════════════════════════════════════╝\n";
-}
