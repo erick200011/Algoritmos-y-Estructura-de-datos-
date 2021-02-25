@@ -1,113 +1,114 @@
+
 #include <iostream>
-using namespace std;
 #include <fstream>
-void carrera(string nombrearchivo);
-void mostrar(string nombrearchivo);
-void Menu();
-int main() 
-{
-  string nombrearchivo;
-  char Tipo;
-  int con=1;
-  while(con!=0)
-  {
-    Menu();
-    cout<<" \n\nIngrese una opcion: ";
-    cin>>Tipo;
-    switch (Tipo) 
-	  {
-      case 'a':
-      cin.ignore();
-        cout<<"Ingrese el nombre del archivo:\n";
-        getline(cin, nombrearchivo);
-        carrera(nombrearchivo);
-        con=1;
-       break;          
-	    case 'b':
-         mostrar(nombrearchivo);
-         con=1;
-       break;          
-	    case 'c':       
-       con=0;
-       cout<<"\n-------MUCHAS GRACIAS ------\n";
-       break;
-	    default:cout<<"\nERROR, Al introducir la opcion\n";
-       con=1;
-       break;
-     }
-    
-  }
-  return 0;
-}
-void carrera(string nombrearchivo)
-{
-  string nombre;
-  string apellido;
-  string carrera;
-  string edad;
-  char r;
-  ofstream archivoprueba;
-  archivoprueba.open(nombrearchivo,ios::out);
-  do
-  {
-    cout<<"Ingrese el nombre:\n";
-    getline(cin,nombre);
-    cout<<"Ingrese el apellido:\n";
-    getline(cin,apellido);
-    cout<<"Ingrese la edad:\n";
-    cin>>edad;
-    cout<<"Ingrese su carrera:\n";
-    cin >>carrera;
-    archivoprueba<<nombre<<" "<<apellido<<" "<<edad<<" "<<carrera<<endl;
-    cout<<"Desea ingresar otro contacto s/n:\n";
-    cin>>r;
-    cin.ignore();
-  }
-  while (r=='s');
-  archivoprueba.close();
-}
+#include <ctime>
 
-void mostrar (string nombrearchivo)
+
+using namespace std;
+
+void dividir(int a[], int inicial, int final);
+void fusionar(int a[],int pinicial,int pfinal,int medio);
+
+
+
+
+
+
+int main()
 {
-  string nombre;
-  string apellido;
-  string edad;
-  string carrera;
-  char r;
-  ofstream archivoprueba;
-  
-   ifstream archivolectura;
-   string texto;
-   archivolectura.open(nombrearchivo,ios::in);
-   if (archivolectura.fail())
-   {
-     cout<<"NO SE ENCONTRÓ NINGÚN ARCHIVO!\n";
-   }
-   else
-   {
-      while (!archivolectura.eof())
+  ofstream archivo;
+  archivo.open("mergersort.txt", ios :: app);
+    int A[10];
+    //COMENZAR CON LA SEMILLA
+    srand(time(0));
+
+    for(int i=0; i< 7; i++)
     {
-      archivolectura>>nombre>>apellido>>edad>>carrera;
-      if(!archivolectura.eof())
-      {
-          cout<<"Nombre: "<<nombre<<endl;
-
-          cout<<"Apellido: "<<apellido<<endl;
-
-          cout<<"Edad: "<<edad<<endl;
-
-          cout<<"Carrera: "<<carrera<<endl;
-      } 
+        //LLENAR EL ARREGLO CON VALORES DESDE EL 1 HASTA EL 19
+        A[i]=1+rand()%(50-1);
     }
-   }
-    archivolectura.close();
+
+    cout<<endl;
+
+    for(int i=0; i< 7; i++)
+    {
+        cout<<"|"<<A[i]<<"|";
+        archivo<<""<<"["<<A[i]<<"]";
+
+    }
+
+    dividir(A,0,6);
+
+    cout<<endl;
+     cout<<endl;
+
+    for(int i=0; i< 7; i++)
+    {
+        cout<<"|"<<A[i]<<"|";
+        archivo<<""<<"["<<A[i]<<"]";
+
+    }
+
+
+    return 0;
 }
-void Menu(void)
+
+
+
+void dividir(int a[], int inicial, int final)
 {
-  cout<<"\t\t╔══════════════════════════════════════════╗\n";
-  cout<<"\t\t║                █ MENÚ █                  ║\n";
-	cout<<"\t\t║  a) INGRESAR DATOS                       ║\n";
-	cout<<"\t\t║  b) MOSTRAR DATOS                        ║\n";
-	cout<<"\t\t║  c) Salir                                ║\n";
-  cout<<"\t\t╚══════════════════════════════════════════╝\n";
+    int mitad;
+    if(inicial < final)
+    {
+        mitad=(inicial+final)/2;
+        dividir(a,inicial,mitad);
+        dividir(a,mitad+1,final);
+        fusionar(a,inicial,final,mitad);
+    }
+
+
 }
+
+
+
+void fusionar(int a[],int pinicial,int pfinal,int medio)
+{
+    int i,j,k, temp[pfinal-pinicial+1];
+    i=pinicial;
+    k=0;
+    j=medio+1;
+
+    while(i<=medio && j<=pfinal)
+    {
+        if(a[i]<a[j])
+        {
+            temp[k]=a[i];
+            k++;
+            i++;
+        }
+        else
+        {
+            temp[k]=a[j];
+            k++;
+            j++;
+        }
+    }
+    while (i<=medio)
+    {
+        temp[k] = a[i];
+        k++;
+        i++;
+    }
+    while(j<=pfinal)
+    {
+        temp[k]=a[j];
+        k++;
+        j++;
+    }
+
+    for(i=pinicial; i<=pfinal; i++)
+    {
+        a[i]= temp[i-pinicial];
+    }
+}
+
