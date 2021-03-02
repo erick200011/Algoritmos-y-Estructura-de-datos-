@@ -1,113 +1,109 @@
-#include <iostream>
+#include<iostream>
+#include<conio.h>
+#include<string.h>
 using namespace std;
-#include <fstream>
-void carrera(string nombrearchivo);
-void mostrar(string nombrearchivo);
-void Menu();
-int main() 
-{
-  string nombrearchivo;
-  char Tipo;
-  int con=1;
-  while(con!=0)
-  {
-    Menu();
-    cout<<" \n\nIngrese una opcion: ";
-    cin>>Tipo;
-    switch (Tipo) 
-	  {
-      case 'a':
-      cin.ignore();
-        cout<<"Ingrese el nombre del archivo:\n";
-        getline(cin, nombrearchivo);
-        carrera(nombrearchivo);
-        con=1;
-       break;          
-	    case 'b':
-         mostrar(nombrearchivo);
-         con=1;
-       break;          
-	    case 'c':       
-       con=0;
-       cout<<"\n-------MUCHAS GRACIAS ------\n";
-       break;
-	    default:cout<<"\nERROR, Al introducir la opcion\n";
-       con=1;
-       break;
-     }
-    
-  }
-  return 0;
-}
-void carrera(string nombrearchivo)
-{
-  string nombre;
-  string apellido;
-  string carrera;
-  string edad;
-  char r;
-  ofstream archivoprueba;
-  archivoprueba.open(nombrearchivo,ios::out);
-  do
-  {
-    cout<<"Ingrese el nombre:\n";
-    getline(cin,nombre);
-    cout<<"Ingrese el apellido:\n";
-    getline(cin,apellido);
-    cout<<"Ingrese la edad:\n";
-    cin>>edad;
-    cout<<"Ingrese su carrera:\n";
-    cin >>carrera;
-    archivoprueba<<nombre<<" "<<apellido<<" "<<edad<<" "<<carrera<<endl;
-    cout<<"Desea ingresar otro contacto s/n:\n";
-    cin>>r;
-    cin.ignore();
-  }
-  while (r=='s');
-  archivoprueba.close();
-}
 
-void mostrar (string nombrearchivo)
+struct candidatos
 {
-  string nombre;
-  string apellido;
-  string edad;
-  string carrera;
-  char r;
-  ofstream archivoprueba;
-  
-   ifstream archivolectura;
-   string texto;
-   archivolectura.open(nombrearchivo,ios::in);
-   if (archivolectura.fail())
-   {
-     cout<<"NO SE ENCONTRÓ NINGÚN ARCHIVO!\n";
-   }
-   else
-   {
-      while (!archivolectura.eof())
+	char nombre[100];
+	int edad;
+	int colav;
+	int id1;
+	int cont;	
+} votos[100];
+int main()
+{
+	char ops;
+	int k=0;
+	int votos1=0;
+	int h=0;
+	int id=0;
+	int j=0;
+	int contador=0,contador1=0;
+	do
+	{
+	cout<<"Bienvenido al registro de votos"<<endl;
+	cout<<"a) Ingresar datos de candidatos"<<endl;
+	cout<<"b) Votos"<<endl;
+	cout<<"c) Resumen de candidatos"<<endl;
+	cout<<"d) Salir"<<endl,
+	cin>>ops;
+	switch (ops)
+	{
+	case 'a':
+	{
+	cout<<"Ingrese la cantidad de candidatos a registrar"<<endl; 
+	cin>>k;
+    for(int i=0;i<k;i++)
     {
-      archivolectura>>nombre>>apellido>>edad>>carrera;
-      if(!archivolectura.eof())
-      {
-          cout<<"Nombre: "<<nombre<<endl;
-
-          cout<<"Apellido: "<<apellido<<endl;
-
-          cout<<"Edad: "<<edad<<endl;
-
-          cout<<"Carrera: "<<carrera<<endl;
-      } 
-    }
-   }
-    archivolectura.close();
-}
-void Menu(void)
-{
-  cout<<"\t\t╔══════════════════════════════════════════╗\n";
-  cout<<"\t\t║                █ MENÚ █                  ║\n";
-	cout<<"\t\t║  a) INGRESAR DATOS                       ║\n";
-	cout<<"\t\t║  b) MOSTRAR DATOS                        ║\n";
-	cout<<"\t\t║  c) Salir                                ║\n";
-  cout<<"\t\t╚══════════════════════════════════════════╝\n";
+    votos[i].id1=id;
+    fflush(stdin);
+    contador++;
+    cout<<"Candidato Numero "<<contador<<endl;
+    cout<<"Ingrese su Nombre"<<endl;
+	cin.getline(votos[i].nombre,100,'\n');
+	fflush(stdin);
+	cout<<"Ingrese su Edad"<<endl;
+	cin>>votos[i].edad;
+	fflush(stdin);
+	cout<<"Ingrese el numero de Colavoradores"<<endl;
+	cin>>votos[i].colav;
+	id++;	
+	}//finalizacion del for
+	break;	
+	}// finalizacion del codigo a
+	case 'b':
+	{
+	for(int i=0;i<k;i++)
+	{
+	contador1++;
+	cout<<"---------Candidato numero "<<contador1<<"---------------"<<endl;
+	cout<<"Id "<<votos[i].id1<<endl;
+	cout<<"------Resumen de datos-------"<<endl;
+	cout<<"Nombre:"<<endl;
+	cout<<votos[i].nombre<<endl;
+	cout<<"Edad:"<<endl;
+	cout<<votos[i].edad<<endl;
+	cout<<"Colavoradores:"<<endl;
+	cout<<votos[i].colav<<endl;
+	}// finalizacion del for
+	cout<<"Introdusca el ID por cual quiere votar"<<endl;
+	cin>>h;	
+	votos[h].cont=votos[h].cont+1;
+	
+	break;
+	}
+	case 'c':
+	{
+    
+	for(int i=0;i<k;i++)
+	{
+	cout<<"Resumen de datos"<<endl;
+	cout<<"---------Nombre del cantidato-----------"<<endl;
+	cout<<"Id "<<votos[i].id1<<endl;
+	cout<<"Nombre:"<<votos[i].nombre<<endl;
+	cout<<"Total votos:"<<votos[i].cont<<endl;
+	
+	}// finalizacion del for
+	
+	char ganador[100];
+	int contGanador=0;
+	for(int i=0;i<k;i++)	
+	{
+		if(votos[i].cont>contGanador)
+		{
+			strcpy(ganador,votos[i].nombre);
+			contGanador=votos[i].cont;
+		}
+	}
+	cout<<"Este candidato gano:"<<ganador<<endl;
+		
+	}	
+	} // finalizancion del switch
+	
+	}while(ops!='d');
+	
+	
+	getch();
+	return 0;
 }
